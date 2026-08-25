@@ -1,0 +1,18 @@
+---
+schema: make-a-change/roadmap/v1
+---
+
+# Roadmap
+
+Strategic direction, version milestones, and long-term targets.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
+
+## 🎯 v1.0: Core Release (Q3 2026) <!-- ref: road-v1 -->
+- [ ] [core] Feature one
+- [ ] [core] Feature two
+
+## 🚀 v2.0: Advanced Capabilities (Q4 2026) <!-- ref: road-v2 -->
+- [ ] [integration] Ecosystem integration
+
+## 🔭 Future Horizons (Icebox)
+- [ ] [exploration] Long-term research topic

@@ -1,48 +1,57 @@
 # make-a-change
 
-Unified work-item lifecycle manager and soft-markdown guardian for **`FEEDBACK.md`**, **`TODO.md`**, and **`CHANGELOG.md`**.
+Unified work-item lifecycle manager, architectural decision logger, and soft-markdown guardian for developer workspaces.
 
 ```text
-  Observation / Intake          Prioritized Planning               Shipped Release
-┌──────────────────────┐      ┌──────────────────────┐      ┌─────────────────────────┐
-│     FEEDBACK.md      │ ───► │       TODO.md        │ ───► │      CHANGELOG.md       │
-│  (Keep a Feedback)   │      │    (Keep a Todo)     │      │   (Keep a Changelog)    │
-└──────────────────────┘      └──────────────────────┘      └─────────────────────────┘
-           │                             │
-           └──────────────┬──────────────┘
-                          ▼
-             🛡️ PRIVACY & IP SANITIZER
-             - Zero API keys / credentials
-             - De-identify private business IP
-             - Route secrets to _local/
+┌────────────────────────────────────────────────────────────────────────┐
+│                        make-a-change Ecosystem                         │
+├────────────────────────────────────────────────────────────────────────┤
+│  Strategic:      ROADMAP.md         (Where we are going)               │
+│  Intake:         FEEDBACK.md        (What users/observers notice)      │
+│  Decisions:      DECISIONS.md       (Why we chose this architecture)   │
+│  Execution:      TODO.md            (What we are building now/next)    │
+│  Investigation:  EXPERIMENTS.md     (What we tested & benchmarked)     │
+│  Learning:       INCIDENTS.md       (What failed & how we remediated)  │
+│  Historical:     CHANGELOG.md       (What we actually shipped)         │
+│  Private:        _local/*.local.md  (Local confidential companion)     │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Why `make-a-change`?
 
-1. **The Work-Item Lifecycle**: Seamlessly connects raw user feedback → prioritized tasks → shipped release notes without heavy, fragile JSON machinery.
-2. **Case-Collision & Overwrite Protection**: Prevents silent data loss caused by case-insensitive filesystems (macOS APFS / Windows NTFS) where `todo.md` clobbers `TODO.md`.
-3. **Built-in Privacy & IP Sanitizer**: Prevents accidental leakage of API keys, confidential business roadmaps, customer PII, or internal credentials into public repository task lists.
-4. **Soft-Markdown Standards**: Follows human-scannable GFM task lists and predictable heading hierarchies.
+1. **Dual-Audience Contract**: Every document starts with structured YAML frontmatter (`schema: make-a-change/<type>/v1`) for AI agents and CLI tools, followed by standard GFM markdown for human readability.
+2. **The Work-Item Lifecycle**: Seamlessly connects raw user feedback → architectural decisions → prioritized tasks → shipped release notes.
+3. **Case-Collision & Inode Safety**: Prevents silent data loss caused by case-insensitive filesystems (macOS APFS / Windows NTFS) where `todo.md` clobbers `TODO.md`.
+4. **Built-in Privacy & IP Sanitizer**: Prevents accidental leakage of API keys, confidential business roadmaps, customer PII, or internal credentials into public repository task lists.
+5. **Private Companions (`_local/`)**: Native support for gitignored `_local/TODO.local.md` companions to store sensitive credentials and internal notes safely.
 
 ---
 
-## The Trinity Specifications
+## The Document Suite
 
-### 1. `FEEDBACK.md` (Keep a Feedback)
-Captures raw observations, bug reports, UX friction, and user input:
-- `## Open`: New triage items.
-- `## Under Review`: Items being evaluated.
-- `## Addressed`: Feedback promoted to `TODO.md` or resolved.
+| Document | Schema | Purpose | Key Sections |
+|:---|:---|:---|:---|
+| **`TODO.md`** | `make-a-change/todo/v1` | Execution roadmap & active tasks | `## Now`, `## Next`, `## Later`, `## Done (Unreleased)` |
+| **`FEEDBACK.md`** | `make-a-change/feedback/v1` | Raw user observations & bug intake | `## Open`, `## Under Review`, `## Addressed` |
+| **`CHANGELOG.md`** | `make-a-change/changelog/v1` | Shipped release notes (Keep a Changelog) | `## [Unreleased]`, `### Added`, `### Fixed`, etc. |
+| **`DECISIONS.md`** | `make-a-change/decisions/v1` | Architecture decision records (ADR) | `## Accepted`, `## Proposed`, `## Superseded` |
+| **`ROADMAP.md`** | `make-a-change/roadmap/v1` | Strategic milestones & target releases | `## 🎯 v1.0`, `## 🚀 v2.0`, `## 🔭 Future` |
+| **`INCIDENTS.md`** | `make-a-change/incidents/v1` | Blameless incident postmortems | Event headings (`### YYYY-MM-DD: Title`) + Bullets |
+| **`EXPERIMENTS.md`**| `make-a-change/experiments/v1` | Hypothesis testing & benchmark logs | Event headings (`### EXP-001: Title`) + Bullets |
 
-### 2. `TODO.md` (Keep a Todo)
-Prioritizes execution across execution horizons:
-- `## Now`: In-progress / immediate sprint items.
-- `## Next`: Prioritized upcoming backlog.
-- `## Later`: Long-term exploration & icebox.
-- `## Done (Unreleased)`: Completed tasks ready to graduate into `CHANGELOG.md`.
+---
 
-### 3. `CHANGELOG.md` (Keep a Changelog)
-Standard release ledger conforming to [Keep a Changelog 2.0.0](https://keepachangelog.com/en/2.0.0/) and Semantic Versioning.
+## Provenance & Metadata Tags
+
+Link work items across files with lightweight HTML comments:
+
+```markdown
+<!-- ref: todo-045 -->               <!-- Unique ID -->
+<!-- from: fb-012 -->                <!-- Spawned from feedback -->
+<!-- blocked-by: todo-040 -->        <!-- Dependency link -->
+<!-- spawns: todo-050 -->            <!-- Triggered from decision -->
+<!-- graduated: v1.2.0 -->           <!-- Shipped release tag -->
+```
 
 ---
 
@@ -58,11 +67,19 @@ make-a-change/
 ├── references/
 │   ├── keep-a-todo.md                # Soft-markdown spec for TODO.md
 │   ├── keep-a-feedback.md            # Soft-markdown spec for FEEDBACK.md
+│   ├── keep-a-decision.md            # Soft-markdown spec for DECISIONS.md (ADR)
+│   ├── keep-a-roadmap.md             # Soft-markdown spec for ROADMAP.md
+│   ├── event-logs.md                 # Event-based spec (INCIDENTS.md, EXPERIMENTS.md)
+│   ├── metadata-provenance.md        # Provenance tags & _local/ private companions
 │   └── privacy-sanitizer.md          # IP sanitization & secret filtering guide
 ├── templates/
 │   ├── TODO.md.template              # Canonical starter template
 │   ├── FEEDBACK.md.template          # Canonical feedback starter
-│   └── CHANGELOG.md.template         # Keep a Changelog standard starter
+│   ├── CHANGELOG.md.template         # Keep a Changelog standard starter
+│   ├── DECISIONS.md.template         # Architecture decision starter
+│   ├── ROADMAP.md.template           # Roadmap starter
+│   ├── INCIDENTS.md.template         # Incident postmortem starter
+│   └── EXPERIMENTS.md.template       # Experiment spike starter
 └── scripts/
     └── audit-work-items.py           # CLI validation & secret scanner script
 ```

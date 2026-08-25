@@ -11,7 +11,8 @@ Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ## Now
 
-- [ ] [cli] Add GitHub action workflow for automated work-item validation ~o !P1 <!-- ref: mac-001 -->
+- [ ] [adr] Check Spectacular ADR / Decision system and decide whether to conform / harmonize ~o !P1 <!-- ref: mac-002 -->
+- [ ] [cli] Add GitHub Actions workflow for automated work-item validation in CI ~o !P1 <!-- ref: mac-001 -->
 - [ ] [docs] Add visual badges and markdown cheatsheet to README ~o !P2
 
 ## Next
@@ -28,4 +29,5 @@ Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 - [x] [core] Initial specification for Keep a Todo and Keep a Feedback
 - [x] [security] Built-in privacy sanitizer and case-collision protections
 - [x] [cli] Deterministic work-item auditor script `audit-work-items.py`
-- [x] [schema] Dual-audience YAML frontmatter schema declaration standard
+- [x] [schema] Dual-audience YAML frontmatter schema declaration standard (`make-a-change/todo/v1`)
+- [x] [suite] Full ecosystem suite: DECISIONS.md, ROADMAP.md, INCIDENTS.md, EXPERIMENTS.md, and `_local/` private companions

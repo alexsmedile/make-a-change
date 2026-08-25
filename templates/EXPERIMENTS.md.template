@@ -1,0 +1,15 @@
+---
+schema: make-a-change/experiments/v1
+---
+
+# Experiments
+
+Hypothesis testing, benchmark logs, and technical spikes.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
+
+## EXP-001: Experiment Title <!-- ref: exp-001 -->
+- **Date**: YYYY-MM-DD
+- **Hypothesis**: What we expect to observe or improve.
+- **Method**: How the benchmark or spike was tested.
+- **Result**: Measured metrics and outcomes.
+- **Outcome**: **ADOPTED** | **REJECTED** | **REFINED**

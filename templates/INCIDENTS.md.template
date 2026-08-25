@@ -1,0 +1,15 @@
+---
+schema: make-a-change/incidents/v1
+---
+
+# Incidents
+
+Blameless incident log and postmortem records.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
+
+## YYYY-MM-DD: Incident Title <!-- ref: inc-001 -->
+- **Severity**: Low | Medium | High | Critical
+- **Impact**: User-facing or system impact summary.
+- **Root Cause**: Underlying trigger and contributing factors.
+- **Remediation**:
+  - [ ] Actionable fix to prevent recurrence <!-- ref: todo-001 -->

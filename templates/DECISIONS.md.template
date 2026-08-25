@@ -1,0 +1,21 @@
+---
+schema: make-a-change/decisions/v1
+---
+
+# Decisions
+
+Architectural decision log and design choices for this repository.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
+
+## Accepted
+
+### YYYY-MM-DD: Title <!-- ref: adr-001 -->
+- **Context**: Problem statement and forces at play.
+- **Decision**: Chosen architecture or approach.
+- **Consequences**: Positive and negative tradeoffs.
+- **Spawns**: [TODO] Follow-up task <!-- ref: todo-001 -->
+
+## Proposed
+
+## Superseded
+
