@@ -36,9 +36,9 @@ Before writing or updating items in `TODO.md` or `FEEDBACK.md` (especially in pu
 ## 3. The 3-Tier Resolution Strategy
 
 1. **Tier 1: Generalize & Abstract (Recommended for public repos)**
-   - Express the engineering goal without exposing commercial names, keys, or secrets.
-2. **Tier 2: Divert to Private Local Companion (`_local/TODO.local.md`)**
-   - Public `TODO.md` keeps the clean entry.
-   - Private details, customer notes, or internal tracking IDs live in `.gitignore`'d `_local/TODO.local.md` or `TODO.private.md`.
+   - Express the engineering goal cleanly without exposing commercial names, keys, or internal secrets.
+2. **Tier 2: Divert to Private Local Companion (`TODO.local.md`)**
+   - Public `TODO.md` keeps the clean, sanitized entry.
+   - Private details, customer notes, or live credentials live in gitignored `TODO.local.md` (default root location) or `_local/TODO.local.md` / `.local/TODO.local.md`.
 3. **Tier 3: Git Clean-Filter Redaction**
    - In repos using git clean filters (like `dotagents`), use `<prefix>REDACTED` tags so working tree keeps local data while commits are masked.

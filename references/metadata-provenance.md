@@ -39,19 +39,28 @@ When a work item requires rich, multi-property attributes (blockers, assigned ag
 
 ---
 
-## 3. The `_local/` & `*.local.md` Private Companions Convention
+## 3. The Private Companions Convention (`*.local.md`)
 
-For repos where public task tracking is committed to git, but certain notes, API keys, or confidential customer details must remain local:
+For repos where public task tracking is committed to git, but certain notes, API keys, internal credentials, or confidential customer details must remain local:
+
+### Canonical Location Hierarchy
+1. **Default (Root-level, no subfolder)**:
+   - `TODO.local.md` (Companion to `TODO.md`)
+   - `FEEDBACK.local.md` (Companion to `FEEDBACK.md`)
+   - `DECISIONS.local.md` (Companion to `DECISIONS.md`)
+2. **Accepted Subfolder Alternatives**:
+   - `_local/TODO.local.md`
+   - `.local/TODO.local.md`
 
 ### Rules
-1. **Public File (`TODO.md`)**: Committed to git. Uses sanitized, high-level task descriptions.
-2. **Private Companion (`_local/TODO.local.md` or `TODO.local.md`)**: Always gitignored. Contains credentials, customer names, private draft links, and internal context.
-3. **Linkage**: Both files share the same `<!-- ref: id -->` identifiers so tools can correlate them locally.
+1. **Always Gitignored**: `.gitignore` must ignore `*.local.md`, `_local/`, and `.local/`.
+2. **Public File (`TODO.md`)**: Committed to git. Uses sanitized, high-level task descriptions.
+3. **Private Companion (`TODO.local.md`)**: Local-only. Contains live tokens, private URLs, customer names, and internal implementation details.
+4. **Linkage**: Both files share the same `<!-- ref: id -->` identifiers so tools can correlate them locally.
 
 ```text
 my-project/
-├── .gitignore             # Includes: _local/ and *.local.md
+├── .gitignore             # Includes: *.local.md, _local/, .local/
 ├── TODO.md                # Public sanitized tasks (schema: make-a-change/todo/v1)
-└── _local/
-    └── TODO.local.md      # Private companion notes & internal keys
+└── TODO.local.md          # Default private companion (root, gitignored)
 ```

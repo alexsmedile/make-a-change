@@ -57,7 +57,7 @@ Activate this skill when:
    - Audit every incoming item against the **Privacy Sanitizer**:
      - No API keys, passwords, bearer tokens, or internal credentials.
      - In public repos, sanitize/generalize unannounced proprietary roadmap items, commercial deal details, and customer PII.
-     - Divert sensitive execution notes to `_local/TODO.local.md` (gitignored).
+     - Divert sensitive execution notes to `TODO.local.md` (root default, gitignored) or `_local/TODO.local.md` / `.local/TODO.local.md`.
 
 ---
 

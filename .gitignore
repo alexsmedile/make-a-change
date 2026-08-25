@@ -3,6 +3,7 @@
 
 # Local / Private companions (always gitignored)
 _local/
+.local/
 *.local.md
 *.private.md
 

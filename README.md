@@ -145,20 +145,19 @@ System: Verified 0 case collisions, 0 leaked credentials. Ready to ship!
 
 ---
 
-## 🛡️ Privacy Sanitizer & Private Companions (`_local/`)
+## 🛡️ Privacy Sanitizer & Private Companions (`TODO.local.md`)
 
 Before committing tasks to public repositories, `make-a-change` enforces strict secret scrubbing:
 
 1. **Public File (`TODO.md`)**: Committed to Git with abstracted, public-safe descriptions.
-2. **Private Companion (`_local/TODO.local.md`)**: Gitignored companion holding raw credentials, customer names, or private deal terms.
+2. **Private Companion (`TODO.local.md`)**: Root-level gitignored companion holding raw credentials, customer names, or private deal terms. (Subfolders `_local/TODO.local.md` and `.local/TODO.local.md` are also supported).
 3. **Trace Linkage**: Both files share the same `<!-- ref: ... -->` comment IDs for local tool correlation.
 
 ```text
 my-repo/
-├── .gitignore             # Includes: _local/ and *.local.md
+├── .gitignore             # Includes: *.local.md, _local/, .local/
 ├── TODO.md                # Public sanitized tasks (schema: make-a-change/todo/v1)
-└── _local/
-    └── TODO.local.md      # Private companion notes & internal keys
+└── TODO.local.md          # Default private companion (root, gitignored)
 ```
 
 ---
