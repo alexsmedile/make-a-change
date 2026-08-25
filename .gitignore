@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Local / Private companions (always gitignored)
+_local/
+*.local.md
+*.private.md
+
+# Archives and backups
+_archive/
+_archived/
+_backup/
+_backups/
+
+# Python
+__pycache__/
+*.pyc
