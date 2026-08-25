@@ -70,15 +70,13 @@ Every document follows the **Dual-Audience pattern**: structured YAML frontmatte
 
 ---
 
-## 📝 Syntax & Standard Anatomy
+## 📝 Base Syntax & Standard Anatomy
 
-### `TODO.md` (`schema: make-a-change/todo/v1`)
+### `TODO.md` (`schema: make-a-change/todo/v1`) — Baseline Clean Canvas
 
 ```markdown
 ---
 schema: make-a-change/todo/v1
-extensions:
-  - octopus:all
 ---
 
 # Todo
@@ -88,16 +86,17 @@ Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ## Now
 
-- [ ] [auth] Fix token refresh race condition ~o !P1 due:2026-08-30 #security
-- [ ] [cli] Add `--json` streaming format ~o !P2 #dx
+- [ ] [setup] Configure test environment and linter
+- [ ] [api] Implement initial health check endpoint <!-- ref: todo-001 -->
 
 ## Next
 
-- [ ] [billing] Integrate Stripe webhook verification ~n !P2 📅 2026-09-15 #billing
+- [ ] [auth] User login and registration flow
+- [ ] [billing] Integrate Stripe webhook verification
 
 ## Later
 
-- [ ] [plugin] Native VS Code extension bridge ~b !P3 #idea
+- [ ] [plugin] Native VS Code extension bridge
 
 ## Done (Unreleased)
 
@@ -106,11 +105,11 @@ Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ---
 
-## 🐙 Octopus Superpowers
+## 🐙 Optional Extensions: Octopus Integration
 
-When `extensions: [octopus:all]` or `[octopus:sigils]` is declared, your `TODO.md` unlocks full compatibility with the **Octopus** task engine:
+When managed by external task engines like **Octopus**, declare `extensions: [octopus:all]` in the frontmatter to unlock inline sigils and rich metadata blocks:
 
-| Grammar | Purpose | Meaning |
+| Extension Grammar | Purpose | Example / Meaning |
 |:---|:---|:---|
 | `[topic]` | Primary Domain | Single architectural package (e.g. `[auth]`, `[cli]`, `[billing]`). |
 | `#tags` | Cross-Cutting Labels | Multi-label descriptors (e.g. `#bug`, `#security`, `#dx`). |

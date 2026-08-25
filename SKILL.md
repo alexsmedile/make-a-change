@@ -4,10 +4,10 @@ description: |
   Dual-Audience work-item lifecycle standard (FEEDBACK → DECISIONS → TODO → CHANGELOG).
   Guarantees APFS case-collision safety, zero blind overwrites, secret scrubbing, and
   private companion routing (TODO.local.md).
-version: 1.2.0
+version: 1.2.1
 category: workflow
 status: current
-tags: [todo, feedback, changelog, decisions, roadmap, privacy, octopus]
+tags: [todo, feedback, changelog, decisions, roadmap, privacy]
 ---
 
 # make-a-change
@@ -42,10 +42,9 @@ FEEDBACK.md (Open) ──► DECISIONS.md (Accepted) ──► TODO.md (Now/Next
                        (Strip secrets ──► TODO.local.md)
 ```
 
-## 4. Syntax Quick-Cheatsheet
+## 4. Base Standard & Extensions
 
-- **TODO Item**: `- [ ] [topic] Imperative action ~bucket !priority due:YYYY-MM-DD #tags <!-- ref: id, from: id -->`
-  - *Buckets (`~`)*: `~o` (open/now) · `~n` (next) · `~b` (backlog) · `~d` (done)
-  - *Priorities (`!`)*: `!P1` (critical) · `!P2` (high/normal) · `!P3` (low)
-  - *Scope vs Tag*: `[topic]` = single primary architectural domain · `#tags` = multi cross-cutting labels
-- **Rich Context Block**: Use indented blockquote `  > desc` and `  ```yaml` block (`kind:`, `actor:`, `blocked_by:`, `energy:`).
+- **Base Item (Clean GFM)**: `- [ ] [topic] Imperative action statement <!-- ref: id, from: id -->`
+  - *Sections*: `## Now` (current focus) · `## Next` (upcoming) · `## Later` (backlog) · `## Done (Unreleased)`
+  - *Domain*: `[topic]` = single primary architectural package (`[auth]`, `[cli]`, `[ui]`)
+- **Optional Extensions (`extensions: [octopus:*]`)**: Rich sigils (`~bucket`, `!priority`, `due:`, `#tags`) and YAML blocks are opt-in for tool integrations. See [keep-a-todo.md](references/keep-a-todo.md).
