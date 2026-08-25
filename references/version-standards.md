@@ -1,4 +1,4 @@
-# Keep a Version Specification (v1.0.0)
+# Versioning & Release Standard (v1.0.0)
 
 How to manage semantic releases, changelog graduations, and schema invariance across `make-a-change` repositories.
 

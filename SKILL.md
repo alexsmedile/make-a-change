@@ -30,7 +30,7 @@ Dual-Audience work-item lifecycle and soft-markdown governance standard.
 | `plan` | Add / prioritize task | Insert into `TODO.md` (`## Now` / `## Next` / `## Later`) with `[topic]` | [keep-a-todo.md](references/keep-a-todo.md) |
 | `roadmap` | Strategic vision / horizon | Update `ROADMAP.md` (`## 🎯 vX.X` / `## 🚀 vY.Y`) | [keep-a-roadmap.md](references/keep-a-roadmap.md) |
 | `event` | Incident / experiment spike | Log to `INCIDENTS.md` or `EXPERIMENTS.md` (`### DATE: Title` + bullets) | [event-logs.md](references/event-logs.md) |
-| `release` | Cut release / ship version | Graduate `[Unreleased]` → `[vX.Y.Z]`, snapshot cycle, clear `- [x]` | [keep-a-version.md](references/keep-a-version.md) |
+| `release` | Cut release / ship version | Graduate `[Unreleased]` → `[vX.Y.Z]`, snapshot cycle, clear `- [x]` | [version-standards.md](references/version-standards.md) |
 | `snapshot` | Backup state before refactor | Save point-in-time state (`<file>@<hash>`, `<file>@<ver>`, `.bak`) | [snapshot-standards.md](references/snapshot-standards.md) |
 | `audit` | Lint / check leaks / case | Run `python3 scripts/audit-work-items.py <repo>` | [privacy-sanitizer.md](references/privacy-sanitizer.md) |
 

@@ -164,7 +164,7 @@ my-repo/
 ## 🏛️ Specifications & The Manifesto
 
 - **The Manifesto**: [The 7 Tenets of `make-a-change`](docs/manifesto.md)
-- **The Release Standard**: [Keep a Version (SemVer + Schema Invariance)](references/keep-a-version.md)
+- **The Release Standard**: [Versioning & Release Standard](references/version-standards.md)
 - **The Snapshot Standard**: [Snapshot & State Preservation Formats](references/snapshot-standards.md)
 - **Document Specs**: [Keep a Todo](references/keep-a-todo.md) · [Keep a Feedback](references/keep-a-feedback.md) · [Keep a Decision](references/keep-a-decision.md) · [Keep a Roadmap](references/keep-a-roadmap.md) · [Event Logs](references/event-logs.md)
 - **Privacy & Security**: [Privacy Sanitizer](references/privacy-sanitizer.md) · [Metadata & Provenance](references/metadata-provenance.md)
