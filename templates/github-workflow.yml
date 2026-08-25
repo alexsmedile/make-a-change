@@ -1,0 +1,31 @@
+name: make-a-change audit
+
+on:
+  pull_request:
+    paths:
+      - '**.md'
+  push:
+    branches: [main, master]
+    paths:
+      - '**.md'
+
+jobs:
+  audit:
+    name: Work-Item & Governance Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run make-a-change Linter
+        run: |
+          if [ -f "scripts/audit-work-items.py" ]; then
+            python3 scripts/audit-work-items.py --strict .
+          else
+            curl -fsSL https://raw.githubusercontent.com/alexsmedile/make-a-change/main/scripts/audit-work-items.py | python3 - --strict .
+          fi

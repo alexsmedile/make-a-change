@@ -1,0 +1,32 @@
+name: make-a-change audit
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - '**.md'
+      - 'scripts/**'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - '**.md'
+      - 'scripts/**'
+
+jobs:
+  audit:
+    name: Work-Item & Governance Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run make-a-change Linter
+        run: python3 scripts/audit-work-items.py --strict .
+
+      - name: Run Lifecycle Drift Check
+        run: python3 scripts/check-drift.py .

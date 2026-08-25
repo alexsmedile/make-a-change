@@ -7,12 +7,22 @@ A predictable, human-first, soft-markdown standard for project task lists (`TODO
 ## 1. Principles
 
 1. **Dual-Audience Contract**: YAML frontmatter (`schema: make-a-change/todo/v1`) for agents/tools + readable GFM markdown for humans.
-2. **Horizon-Based Grouping**: Tasks are prioritized by execution timing (`Now`, `Next`, `Later`, `Done (Unreleased)`), avoiding brittle numeric ranking.
-3. **Primary Topic vs Multi-Tags**:
-   - `[topic]`: Architectural domain / package (`[auth]`, `[cli]`, `[billing]`, `[ui]`). Exactly one primary topic per task.
+2. **Flexible Heading Clustering (No Enforced Taxonomy)**:
+   - Headings like `## Now` / `## Next` / `## Later` are common illustrative examples (like "Bob and Alice" in cryptography).
+   - Projects are free to use any clustering:
+     - *Horizon*: `## Now`, `## Next`, `## Later`
+     - *Kanban*: `## Todo`, `## Doing`, `## Done`
+     - *Agile*: `## Backlog`, `## In Progress`, `## Done`
+     - *Domain Packages*: `## Auth`, `## CLI`, `## Frontend`, `## Docs`
+     - *Flat / Chronological*: Pure recency order with zero section headings
+     - *Omission*: Omitting completed / `Done` sections entirely
+   - The standard and linters never enforce rigid heading names—they only validate syntax, unclosed blocks, and frontmatter correctness.
+3. **Nested Subtasks Supported**: Indented checkboxes (`  - [ ] child task`) are natively supported and parsed as parent-child task hierarchies.
+4. **Primary Topic vs Multi-Tags**:
+   - `[topic]`: Architectural domain / package (`[auth]`, `[cli]`, `[billing]`, `[ui]`).
    - `#tags`: Cross-cutting labels (`#bug`, `#security`, `#dx`, `#perf`).
-4. **Surgical In-Place Edits**: Tools parse and update sections without wiping uncommitted notes or comments.
-5. **Case-Insensitive Integrity**: The file is canonically `TODO.md`. Never create `todo.md` concurrently.
+5. **Surgical In-Place Edits**: Tools parse and update sections without wiping uncommitted notes or comments.
+6. **Case-Insensitive Integrity**: The file is canonically `TODO.md`. Never create `todo.md` concurrently.
 
 ---
 
@@ -30,7 +40,7 @@ extensions:
 
 | Extension | Unlocked Capability |
 |:---|:---|
-| *(None / Base)* | Standard GFM task lists `- [ ] [topic] Task description` organized in `## Now`, `## Next`, `## Later`. |
+| *(None / Base)* | Standard GFM task lists `- [ ] [topic] Task description` with any heading layout or nested subtasks. |
 | `octopus:sigils` | Compact inline sigils: `~bucket`, `!priority`, `due:`, `#tags`. |
 | `octopus:topics` | Strict primary domain classification: `[topic]` vs multi-tag `#tag1 #tag2`. |
 | `octopus:yaml` | Indented body blocks (`> ...`) and rich YAML blocks (blockers, actor, energy, stage). |
@@ -59,7 +69,7 @@ extensions:
 
 ## 4. Standard Structure Examples
 
-### Minimal Baseline (Empty Canvas)
+### Example 1: Horizon Clustering (`Now` / `Next` / `Later`)
 
 ```markdown
 ---
@@ -73,6 +83,8 @@ Project roadmap and task ledger.
 ## Now
 
 - [ ] [setup] Configure test environment and linter
+  - [ ] Add pre-commit hook installer
+  - [ ] Add GitHub Actions CI workflow
 - [ ] [api] Implement health check endpoint
 
 ## Next
@@ -82,53 +94,45 @@ Project roadmap and task ledger.
 ## Later
 
 - [ ] [infra] Staging deployment setup
-
-## Done (Unreleased)
-
-- [x] [repo] Initialize repository structure
 ```
 
 ---
 
-### Extended with Octopus Superpowers (`extensions: [octopus:all]`)
+### Example 2: Kanban Clustering (`Todo` / `Doing` / `Done`)
 
 ```markdown
 ---
 schema: make-a-change/todo/v1
-extensions:
-  - octopus:all
 ---
 
 # Todo
 
-Project roadmap and task ledger.
+## Doing
 
-## Now
+- [ ] [auth] Fix token refresh race condition
 
-- [ ] [auth] Enterprise SSO with Multi-Tenant SAML/OIDC ~o !P1 due:2026-09-01 #auth #enterprise
-  > Complete SAML 2.0 and OIDC authorization code grant flow with PKCE.
-  ```yaml
-  kind: feat
-  actor: ai
-  stage: spec
-  energy: high
-  blocked_by: database-tenant-isolation
-  pinned: true
-  ```
-  - [ ] Implement SAML metadata parser
-  - [ ] Add ACS callback endpoint and session cookie issuer
+## Todo
 
-- [ ] [perf] Memory pressure fix during large diff rendering ~o !P1 #perf
+- [ ] [billing] Integrate Stripe webhook verification
+- [ ] [docs] Write API documentation
 
-## Next
+## Done
 
-- [ ] [cli] Add interactive task triage mode ~n !P2 #dx
+- [x] [setup] Initialize repository structure
+```
 
-## Later
+---
 
-- [ ] [export] Taskwarrior and Linear bi-directional sync ~b !P3 #idea
+### Example 3: Flat Recency List (Zero Headings)
 
-## Done (Unreleased)
+```markdown
+---
+schema: make-a-change/todo/v1
+---
 
-- [x] [security] Invariant rules for zero file overwrites <!-- ref: todo-001 -->
+# Todo
+
+- [ ] [cli] Add --json output flag to audit script
+- [ ] [auth] Fix session cookie expiration
+- [ ] [docs] Add architecture diagram to README
 ```
