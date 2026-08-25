@@ -2,50 +2,133 @@
 
 A predictable, human-first, soft-markdown standard for project task lists (`TODO.md`).
 
+---
+
 ## 1. Principles
 
-1. **Human & Agent Readable**: Standard GitHub Flavored Markdown (GFM) task lists (`- [ ]`, `- [x]`).
-2. **Horizon-Based Grouping**: Tasks are prioritized by execution timing (`Now`, `Next`, `Later`), not rigid numerical scores that rot quickly.
-3. **Surgical In-Place Edits**: Tools must parse and update sections without wiping uncommitted notes or comments.
-4. **Case-Insensitive Integrity**: The file is canonically `TODO.md`. Never create `todo.md` concurrently.
+1. **Dual-Audience Contract**: YAML frontmatter (`schema: make-a-change/todo/v1`) for agents/tools + readable GFM markdown for humans.
+2. **Horizon-Based Grouping**: Tasks are prioritized by execution timing (`Now`, `Next`, `Later`, `Done (Unreleased)`), avoiding brittle numeric ranking.
+3. **Primary Topic vs Multi-Tags**:
+   - `[topic]`: Architectural domain / package (`[auth]`, `[cli]`, `[billing]`, `[ui]`). Exactly one primary topic per task.
+   - `#tags`: Cross-cutting labels (`#bug`, `#security`, `#dx`, `#perf`).
+4. **Surgical In-Place Edits**: Tools parse and update sections without wiping uncommitted notes or comments.
+5. **Case-Insensitive Integrity**: The file is canonically `TODO.md`. Never create `todo.md` concurrently.
 
 ---
 
-## 2. Standard Structure
+## 2. Frontmatter Declaration
+
+```yaml
+---
+schema: make-a-change/todo/v1
+extensions:
+  - octopus:all # Options: octopus:all | octopus:sigils | octopus:topics | octopus:yaml
+---
+```
+
+### Supported Extensions
+
+| Extension | Unlocked Capability |
+|:---|:---|
+| *(None / Base)* | Standard GFM task lists `- [ ] [topic] Task description` organized in `## Now`, `## Next`, `## Later`. |
+| `octopus:sigils` | Compact inline sigils: `~bucket`, `!priority`, `due:`, `#tags`. |
+| `octopus:topics` | Strict primary domain classification: `[topic]` vs multi-tag `#tag1 #tag2`. |
+| `octopus:yaml` | Indented body blocks (`> ...`) and rich YAML blocks (blockers, actor, energy, stage). |
+| `octopus:all` | Full superpower bundle (Sigils + Topics + YAML Blocks + Subtasks). |
+
+---
+
+## 3. Syntax Grammar
+
+### A. Buckets (`~`)
+- `~o` or `~!` : **Open / Now** (Active in current cycle)
+- `~n` : **Next** (Prioritized queue)
+- `~b` : **Backlog / Later** (Ideas, icebox)
+- `~d` : **Done** (Completed, ready for changelog)
+
+### B. Priority (`!`)
+- `!P1` / `!!` : **P1 - Critical / Urgent** (Blocker, top priority)
+- `!P2` / `!h` : **P2 - Normal / High** (Current sprint focus)
+- `!P3` / `!l` : **P3 - Low / Nice-to-have** (Polish, non-blocking)
+
+### C. Due & Dates
+- `due:YYYY-MM-DD` or `date:YYYY-MM-DD`
+- `📅 YYYY-MM-DD` / `🗓️ YYYY-MM-DD` / `📆 YYYY-MM-DD`
+
+---
+
+## 4. Standard Structure Examples
+
+### Minimal Baseline (Empty Canvas)
 
 ```markdown
+---
+schema: make-a-change/todo/v1
+---
+
 # Todo
 
-Brief one-line statement of project focus or current cycle goal.
+Project roadmap and task ledger.
 
 ## Now
 
-- [ ] [scope] Active or immediate priority item <!-- ref: optional-id -->
-- [ ] [scope] Another active task
+- [ ] [setup] Configure test environment and linter
+- [ ] [api] Implement health check endpoint
 
 ## Next
 
-- [ ] [scope] Upcoming prioritized feature or refactor
-- [ ] [scope] Secondary improvement
+- [ ] [auth] User login and registration flow
 
 ## Later
 
-- [ ] [scope] Long-term exploration, ideas, or icebox items
+- [ ] [infra] Staging deployment setup
 
 ## Done (Unreleased)
 
-- [x] [scope] Finished task ready for next changelog release <!-- graduated-to: CHANGELOG.md -->
+- [x] [repo] Initialize repository structure
 ```
 
 ---
 
-## 3. Item Syntax
+### Extended with Octopus Superpowers (`extensions: [octopus:all]`)
 
 ```markdown
-- [ ] [tag] Imperative action statement <!-- ref: id, from: fb-id -->
-```
+---
+schema: make-a-change/todo/v1
+extensions:
+  - octopus:all
+---
 
-- **Status Box**: `- [ ]` (pending) or `- [x]` (completed).
-- **Category Tag**: `[area]` or `[package]`, e.g., `[auth]`, `[cli]`, `[docs]`, `[ui]`, `[perf]`.
-- **Imperative Verb**: Start with action verb (e.g. `Add`, `Fix`, `Refactor`, `Benchmark`, `Document`).
-- **Optional Metadata**: HTML comment `<!-- ref: ... -->` for provenance and non-distracting cross-links.
+# Todo
+
+Project roadmap and task ledger.
+
+## Now
+
+- [ ] [auth] Enterprise SSO with Multi-Tenant SAML/OIDC ~o !P1 due:2026-09-01 #auth #enterprise
+  > Complete SAML 2.0 and OIDC authorization code grant flow with PKCE.
+  ```yaml
+  kind: feat
+  actor: ai
+  stage: spec
+  energy: high
+  blocked_by: database-tenant-isolation
+  pinned: true
+  ```
+  - [ ] Implement SAML metadata parser
+  - [ ] Add ACS callback endpoint and session cookie issuer
+
+- [ ] [perf] Memory pressure fix during large diff rendering ~o !P1 #perf
+
+## Next
+
+- [ ] [cli] Add interactive task triage mode ~n !P2 #dx
+
+## Later
+
+- [ ] [export] Taskwarrior and Linear bi-directional sync ~b !P3 #idea
+
+## Done (Unreleased)
+
+- [x] [security] Invariant rules for zero file overwrites <!-- ref: todo-001 -->
+```

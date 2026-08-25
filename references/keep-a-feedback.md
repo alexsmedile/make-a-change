@@ -2,24 +2,41 @@
 
 A soft-markdown convention for capturing qualitative user feedback, bug reports, and UX friction in `FEEDBACK.md` (or `FEEDBACKS.md`).
 
+---
+
 ## 1. Principles
 
-1. **Intake Before Planning**: Feedback captures what users observed, struggled with, or requested before triage turns it into engineering tasks.
-2. **Clear Triage States**: Feedback lives in `Open` (raw), `Under Review` (evaluating), or `Addressed` (promoted to `TODO.md` or completed).
-3. **Traceability**: An item can graduate cleanly: `Feedback → Todo → Changelog`.
+1. **Dual-Audience Contract**: YAML frontmatter (`schema: make-a-change/feedback/v1`) for agents + GFM task lists for humans.
+2. **Intake Before Planning**: Feedback captures raw observations and user friction before engineering triage turns them into `TODO.md` tasks.
+3. **Traceable Lifecycle**: Seamlessly promotes from `FEEDBACK.md` → `TODO.md` → `CHANGELOG.md`.
 
 ---
 
-## 2. Standard Structure
+## 2. Frontmatter Declaration
+
+```yaml
+---
+schema: make-a-change/feedback/v1
+---
+```
+
+---
+
+## 3. Standard Structure
 
 ```markdown
+---
+schema: make-a-change/feedback/v1
+---
+
 # Feedback
 
 All notable user feedback, bug reports, and UX observations.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ## Open
 
-- [ ] **[UX]** Search filters clear on second tag selection. <!-- ref: fb-001 -->
+- [ ] **[UX]** Search filter reset on second tag selection. <!-- ref: fb-001 -->
 - [ ] **[Bug]** CLI crashes when config file is empty. <!-- ref: fb-002 -->
 
 ## Under Review
@@ -28,17 +45,17 @@ All notable user feedback, bug reports, and UX observations.
 
 ## Addressed
 
-- [x] **[Bug]** Fix crash on empty config. (Promoted to TODO `[cli] Fix config parse` → Released in v1.1.0)
+- [x] **[Bug]** Fix crash on empty config. (Promoted to TODO: [cli] Fix config parser → Released in v1.1.0)
 ```
 
 ---
 
-## 3. Feedback Item Classification
+## 4. Item Classification
 
-| Tag | Purpose | Example |
+| Tag | Category | Example |
 |:---|:---|:---|
-| **`[Bug]`** | Functional failure or crash | `**[Bug]** Exit code 0 returned on syntax error` |
-| **`[UX]`** | Confusion, visual quirk, friction | `**[UX]** Delete button has no confirmation modal` |
-| **`[Perf]`** | Slowness, latency, high memory | `**[Perf]** High CPU on large markdown rendering` |
-| **`[Feature]`** | New capability request | `**[Feature]** Support export to CSV` |
-| **`[Doc]`** | Missing or confusing documentation | `**[Doc]** Missing environment variables list in README` |
+| **`[Bug]`** | Functional failure or error | `**[Bug]** Non-zero exit code missing on failed build` |
+| **`[UX]`** | Visual quirk, confusion, friction | `**[UX]** Delete button has no confirmation prompt` |
+| **`[Perf]`** | Latency, memory pressure, CPU spike | `**[Perf]** High memory during 50+ file diffs` |
+| **`[Feature]`** | New capability request | `**[Feature]** Add --json output flag to status verb` |
+| **`[Doc]`** | Confusing or missing docs | `**[Doc]** Missing environment variables list in README` |

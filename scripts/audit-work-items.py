@@ -3,8 +3,9 @@
 
 Checks for:
 1. Case collisions (e.g. todo.md vs TODO.md)
-2. Soft-markdown standard section conformance
-3. Secret patterns or raw auth tokens
+2. Dual-audience frontmatter schema (make-a-change/todo/v1)
+3. Soft-markdown standard section conformance
+4. Secret patterns or raw auth tokens
 """
 from __future__ import annotations
 
@@ -20,6 +21,18 @@ SECRET_PATTERNS = [
     (r"(?i)(bearer\s+[a-zA-Z0-9_\-\.]{20,})", "Bearer token"),
     (r"(?i)(postgres|mysql|mongodb):\/\/[^:\s]+:[^@\s]+@[^\s]+", "Database connection URI"),
 ]
+
+FRONTMATTER_REGEX = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
+
+
+def extract_schema(content: str) -> str | None:
+    match = FRONTMATTER_REGEX.match(content)
+    if not match:
+        return None
+    for line in match.group(1).splitlines():
+        if line.strip().startswith("schema:"):
+            return line.split(":", 1)[1].strip()
+    return None
 
 
 def audit_repo(repo_dir: Path) -> int:
@@ -47,7 +60,13 @@ def audit_repo(repo_dir: Path) -> int:
 
     if todo_path.exists():
         content = todo_path.read_text(encoding="utf-8")
-        print(f"✓ Found {todo_path.name} ({len(content.splitlines())} lines)")
+        schema = extract_schema(content)
+        schema_status = f" (schema: {schema})" if schema else " (missing schema frontmatter)"
+        print(f"✓ Found {todo_path.name} ({len(content.splitlines())} lines){schema_status}")
+
+        if not schema:
+            print("ℹ️ [INFO] Adding 'schema: make-a-change/todo/v1' frontmatter is recommended.")
+
         for regex, label in SECRET_PATTERNS:
             if re.search(regex, content):
                 print(f"❌ [SECRET DETECTED] Found potential {label} in {todo_path.name}!")
@@ -60,7 +79,9 @@ def audit_repo(repo_dir: Path) -> int:
 
     if feedback_path.exists():
         content = feedback_path.read_text(encoding="utf-8")
-        print(f"✓ Found {feedback_path.name} ({len(content.splitlines())} lines)")
+        schema = extract_schema(content)
+        schema_status = f" (schema: {schema})" if schema else ""
+        print(f"✓ Found {feedback_path.name} ({len(content.splitlines())} lines){schema_status}")
         for regex, label in SECRET_PATTERNS:
             if re.search(regex, content):
                 print(f"❌ [SECRET DETECTED] Found potential {label} in {feedback_path.name}!")

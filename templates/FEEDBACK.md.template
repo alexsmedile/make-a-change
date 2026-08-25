@@ -1,6 +1,11 @@
+---
+schema: make-a-change/feedback/v1
+---
+
 # Feedback
 
 Notable feedback, user observations, and improvement suggestions.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ## Open
 

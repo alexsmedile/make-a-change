@@ -3,12 +3,13 @@ name: make-a-change
 description: |
   Standardized work-item management for repositories following soft markdown standards:
   FEEDBACK.md (Keep a Feedback) → TODO.md (Keep a Todo) → CHANGELOG.md (Keep a Changelog).
+  Uses Dual-Audience YAML frontmatter (schema: make-a-change/todo/v1) and extension flags (octopus:all).
   Enforces case-collision protection, safe in-place updates, secret scrubbing, and
   business IP sanitization before writing tasks or feedback.
-version: 1.0.0
+version: 1.1.0
 category: workflow
 status: current
-tags: [todo, feedback, changelog, work-items, privacy, sanitization]
+tags: [todo, feedback, changelog, work-items, privacy, sanitization, octopus]
 ---
 
 # make-a-change
@@ -19,7 +20,8 @@ Unified work-item lifecycle manager and soft-markdown guardian for **`FEEDBACK.m
   Observation / Intake          Prioritized Planning               Shipped Release
 ┌──────────────────────┐      ┌──────────────────────┐      ┌─────────────────────────┐
 │     FEEDBACK.md      │ ───► │       TODO.md        │ ───► │      CHANGELOG.md       │
-│  (Keep a Feedback)   │      │    (Keep a Todo)     │      │   (Keep a Changelog)    │
+│ (make-a-change/      │      │ (make-a-change/      │      │ (make-a-change/         │
+│  feedback/v1)        │      │  todo/v1)            │      │  changelog/v1)          │
 └──────────────────────┘      └──────────────────────┘      └─────────────────────────┘
            │                             │
            └──────────────┬──────────────┘
@@ -59,29 +61,25 @@ Activate this skill when:
 
 ---
 
-## 3. Standard Soft Markdown Specifications
+## 3. Standard Dual-Audience Specifications
 
-### A. `TODO.md` (Keep a Todo)
-Groups tasks by planning horizon:
-- **`# Todo`**: Header with brief description.
-- **`## Now`**: Actively in-progress or top-priority items for the current cycle.
-- **`## Next`**: Prioritized queue for upcoming iterations.
-- **`## Later`**: Backlog, exploration ideas, or icebox.
-- **`## Done (Unreleased)`**: Recently finished items ready to graduate into `CHANGELOG.md`.
+### A. `TODO.md` (`schema: make-a-change/todo/v1`)
+Dual-audience frontmatter declaring schema and extensions:
+- **`schema: make-a-change/todo/v1`**
+- **`extensions: [octopus:all | octopus:sigils]`** (optional)
+- **`[topic]` vs `#tags`**: Primary architectural domain `[auth]` vs cross-cutting `#bug #security`.
+- **Buckets**: `~o` (open/now), `~n` (next), `~b` (backlog), `~d` (done).
+- **Priorities**: `!P1` (critical), `!P2` (normal/high), `!P3` (low).
+- **Sections**: `## Now`, `## Next`, `## Later`, `## Done (Unreleased)`.
 
-*Item Format*: `- [ ] [category] Clear task description <!-- ref: optional-id -->`
-
-### B. `FEEDBACK.md` (Keep a Feedback)
+### B. `FEEDBACK.md` (`schema: make-a-change/feedback/v1`)
 Captures raw observations and user feedback:
-- **`# Feedback`**: Header.
-- **`## Open`**: New observations awaiting triage.
-- **`## Under Review`**: Feedback being evaluated or designed.
-- **`## Addressed`**: Feedback promoted to `TODO.md` or already resolved.
+- **`schema: make-a-change/feedback/v1`**
+- **Sections**: `## Open`, `## Under Review`, `## Addressed`.
+- **Item Format**: `- [ ] **[Bug|UX|Perf|Feature|Doc]** Title: Detail description <!-- ref: fb-id -->`
 
-*Item Format*: `- [ ] **[Bug|UX|Perf|Feature]** Title: Detail description <!-- ref: fb-id -->`
-
-### C. `CHANGELOG.md` (Keep a Changelog)
-Follows [Keep a Changelog](https://keepachangelog.com/en/2.0.0/) standard:
+### C. `CHANGELOG.md` (`schema: make-a-change/changelog/v1`)
+Follows [Keep a Changelog 2.0.0](https://keepachangelog.com/en/2.0.0/) standard:
 - **`## [Unreleased]`**: Staging ground for changes waiting for next version tag.
 - Subheaders: `### Added`, `### Changed`, `### Deprecated`, `### Removed`, `### Fixed`, `### Security`.
 
@@ -91,10 +89,11 @@ Follows [Keep a Changelog](https://keepachangelog.com/en/2.0.0/) standard:
 
 ### Flow 1: Adding a Todo Item (`TODO.md`)
 1. **Pre-Flight**: Check root for `TODO.md` (or `todo.md`). Read full contents.
-2. **Sanitize**: Check input for keys, URLs with tokens, private customer names, or sensitive business IP.
+2. **Detect Schema**: Verify frontmatter `schema: make-a-change/todo/v1`. If missing, add frontmatter safely preserving all existing content.
+3. **Sanitize**: Check input for keys, URLs with tokens, private customer names, or sensitive business IP.
    - If sensitive: generalize for public `TODO.md` and log specifics in `_local/TODO.local.md`.
-3. **Categorize & Insert**: Place in appropriate section (`## Now`, `## Next`, `## Later`) maintaining alphabetical or priority order.
-4. **Verify**: Ensure no duplicate entries and file structure remains valid markdown.
+4. **Categorize & Insert**: Place in appropriate section (`## Now`, `## Next`, `## Later`) maintaining alphabetical or priority order.
+5. **Verify**: Ensure no duplicate entries and file structure remains valid markdown.
 
 ### Flow 2: Recording Feedback (`FEEDBACK.md`)
 1. **Pre-Flight**: Check root for `FEEDBACK.md`. Create from template if missing.
@@ -102,7 +101,7 @@ Follows [Keep a Changelog](https://keepachangelog.com/en/2.0.0/) standard:
 3. **Append**: Add to `## Open` section with actionable summary.
 
 ### Flow 3: Promoting Feedback to Todo
-1. Move/tag item in `FEEDBACK.md` under `## Addressed` with reference pointer: `(Promoted to TODO.md: [category] ...)`.
+1. Move/tag item in `FEEDBACK.md` under `## Addressed` with reference pointer: `(Promoted to TODO: [category] ...)`.
 2. Insert actionable task into `TODO.md` under `## Next` or `## Now`.
 
 ### Flow 4: Graduating Done Todos to Changelog

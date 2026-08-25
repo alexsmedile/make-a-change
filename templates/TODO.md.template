@@ -1,6 +1,13 @@
+---
+schema: make-a-change/todo/v1
+# extensions:
+#   - octopus:all
+---
+
 # Todo
 
 Actionable tasks and development roadmap.
+Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ## Now
 
