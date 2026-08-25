@@ -4,7 +4,7 @@ description: |
   Dual-Audience work-item lifecycle standard (FEEDBACK → DECISIONS → TODO → CHANGELOG).
   Guarantees APFS case-collision safety, zero blind overwrites, secret scrubbing, and
   private companion routing (TODO.local.md).
-version: 1.3.0
+version: 0.2.0
 category: workflow
 status: current
 tags: [todo, feedback, changelog, decisions, roadmap, privacy, release, snapshot]
