@@ -11,7 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0] - 2026-08-25
+## [0.2.2] - 2026-09-01
+
+### Fixed
+- **Anti-Overtrigger Guard for Chat Hashtags & Critique**: Hardened `SKILL.md` frontmatter, invariants, and `intake` operation against conversational `#feedback` hashtags, user commentary, and feature critiques aimed at skills or tools.
+- **Specific Tag Namespaces**: Replaced broad tags (`todo`, `feedback`) with precise document tags (`todo-md`, `feedback-md`, `work-items`) to prevent generic semantic token matching across platforms.
+
+## [0.2.1] - 2026-09-01
+
+### Fixed
+- **Skill Routing Boundaries**: Added explicit positive trigger matching and direct negative constraints (`Do NOT invoke for: Casual chat feedback review...`) in `SKILL.md` frontmatter and invariants to prevent over-triggering during conversational chat triage.
+
 
 ### Added
 - **Expanded Document Suite**: Full support and templates for `DECISIONS.md` (ADR), `ROADMAP.md` (Milestones), `INCIDENTS.md`, and `EXPERIMENTS.md`.
