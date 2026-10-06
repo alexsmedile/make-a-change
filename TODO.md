@@ -1,7 +1,7 @@
 ---
 schema: make-a-change/todo/v1
 extensions:
-  - octopus:all
+  - "octopus:all"
 ---
 
 # Todo
@@ -11,16 +11,16 @@ Format adheres to [make-a-change](https://github.com/alexsmedile/make-a-change).
 
 ## Now
 
-- [ ] [adr] Check Spectacular ADR / Decision system and decide whether to conform / harmonize ~o !P1 <!-- ref: mac-002 -->
-- [ ] [templates] Support custom template variables via optional `.make-a-change.toml` ~o !P2
+- [ ] [adr] Check Spectacular ADR / Decision system and decide whether to conform / harmonize ~! !! <!-- ref: mac-002 -->
+
+- [ ] [templates] Support custom template variables via optional `.make-a-change.toml` ~!
 
 ## Next
 
-- [ ] [export] Optional JSON/YAML export adapter for external issue sync (Taskwarrior / Linear / GitHub Issues) ~n !P3
+- [ ] [export] Optional JSON/YAML export adapter for external issue sync (Taskwarrior / Linear / GitHub Issues) ~n !l
 
 ## Later
 
-- [ ] [plugin] Native VS Code / Cursor extension for in-editor work-item badges ~b !P3
+- [ ] [plugin] Native VS Code / Cursor extension for in-editor work-item badges ~b !l
 
 ## Done (Unreleased)
-

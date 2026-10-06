@@ -4,7 +4,8 @@
 # Local / Private companions (always gitignored)
 _local/
 .local/
-*.local.md
+*.local.*
+.octopus.local/
 *.private.md
 
 # Archives and backups
